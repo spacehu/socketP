@@ -55,7 +55,7 @@ class WS {
                 /* 自动选择来消息的socket 如果是握手 自动选择主机 */
                 socket_select($socketArr, $write, $except, NULL);
 
-                $this->say("socket tree    : *" . json_encode($socketArr) . "*"); //打印链接树
+                //$this->say("socket tree    : *" . json_encode($socketArr) . "*"); //打印链接树
 
                 foreach ($socketArr as $skey => $socket) {
                     if ($socket === $this->master) {  //主机
