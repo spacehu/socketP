@@ -74,8 +74,7 @@ class WS {
                             if (empty($this->handshake[$skey]) || !$this->handshake[$skey]) {
                                 $this->doHandShake($socket, $buffer);
                             } else {
-                                $this->log($socket . " before : " . json_encode($buffer));
-                                if($buffer==""){
+                                if(empty($buffer)){
                                     $this->say($socket . " before : " . $buffer); //打印链接树
                                     continue;
                                 }
