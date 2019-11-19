@@ -55,18 +55,18 @@ class WS {
                 /* 自动选择来消息的socket 如果是握手 自动选择主机 */
                 socket_select($socketArr, $write, $except, NULL);
 
-                //$this->say("socket tree    : *" . json_encode($socketArr) . "*"); //打印链接树
+                $this->say("socket tree    : *" . json_encode($socketArr) . "*"); //打印链接树
 
                 foreach ($socketArr as $skey => $socket) {
                     if ($socket === $this->master) {  //主机
-                        $client = socket_accept($this->master);
+                        $client = socket_accept($this->master); // 获取和主机链接的子机数量
                         if ($client < 0) {
                             $this->log("socket_accept() failed");
                             continue;
                         } else {
-                            $this->connect($client);
+                            $this->connect($client); // 记录子机的#id
                         }
-                    } else {
+                    } else { // 子机
                         $bytes = @socket_recv($socket, $buffer, 2048, 0);
                         if ($bytes == 0) {
                             $this->disConnect($socket);
@@ -74,10 +74,6 @@ class WS {
                             if (empty($this->handshake[$skey]) || !$this->handshake[$skey]) {
                                 $this->doHandShake($socket, $buffer);
                             } else {
-                                if(empty($buffer)){
-                                    $this->say($socket . " before : " . $buffer); //打印链接树
-                                    continue;
-                                }
                                 $buffer = $this->decode($buffer);
                                 $this->say($socket . " : " . $buffer); //打印链接树
                                 foreach ($this->sockets as $k => $v) {
