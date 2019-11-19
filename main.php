@@ -68,7 +68,7 @@ class main {
             $var = LogDAL::getConfig();
             $str = "sudo kill -9 " . $var;
             LogDAL::saveLog('debug', 'info', 'exec : ' . json_encode($str));
-            $process = exec($str);
+            $process = system($str);
             return ['success' => true, 'data' => $process];
         } catch (Exception $ex) {
             return ['success' => false, 'data' => $ex];
