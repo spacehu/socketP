@@ -66,7 +66,7 @@ class main {
     function socketStop() {
         try {
             $var = LogDAL::getConfig();
-            $str = "kill -9 " . $var;
+            $str = "sudo kill -9 " . $var;
             LogDAL::saveLog('debug', 'info', 'exec : ' . json_encode($str));
             $process = exec($str);
             return ['success' => true, 'data' => $process];
