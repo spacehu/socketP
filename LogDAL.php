@@ -19,7 +19,7 @@ class LogDAL {
     }
 
     public static function save($str, $filename = 'log') {
-        $logPath = './log/';
+        $logPath = 'log/';
         if (!is_dir($logPath)) {
             mkdir($logPath, 0777);
         }
