@@ -1,0 +1,10 @@
+config/
+log/
+env.php
+parem.env.local.php
+parem.env.dev.php
+parem.env.prod.php
+parem.mysql.local.php
+parem.mysql.dev.php
+parem.mysql.prod.php
+
