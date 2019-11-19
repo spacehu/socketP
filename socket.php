@@ -75,6 +75,11 @@ class WS {
                                 $this->doHandShake($socket, $buffer);
                             } else {
                                 $buffer = $this->decode($buffer);
+                                if($buffer=="space_close"){
+                                    //$this->say("close from space");
+                                    $this->log("close from space");
+                                    $this->disConnect($socket);
+                                }
                                 $this->say($socket . " : " . $buffer); //打印链接树
                                 foreach ($this->sockets as $k => $v) {
                                     if ($v !== $this->master) {
