@@ -2,6 +2,7 @@
 
 namespace alice;
 
+header('Access-Control-Allow-Origin: *');
 include_once('./env.php');
 $config = include_once('./config.php');
 
