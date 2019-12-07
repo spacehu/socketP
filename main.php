@@ -34,6 +34,30 @@ class main {
                         exit(json_encode($res['data']));
                     }
                     break;
+                case 'activityCheck':
+                    $res = $this->activityCheck();
+                    if ($res['success']) {
+                        exit(json_encode($res['data']));
+                    } else {
+                        exit(json_encode($res['data']));
+                    }
+                    break;
+                case 'activityStart':
+                    $res = $this->activityStart();
+                    if ($res['success']) {
+                        exit(json_encode($res['data']));
+                    } else {
+                        exit(json_encode($res['data']));
+                    }
+                    break;
+                case 'activityStop':
+                    $res = $this->activityStop();
+                    if ($res['success']) {
+                        exit(json_encode($res['data']));
+                    } else {
+                        exit(json_encode($res['data']));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -75,7 +99,7 @@ class main {
         }
     }
 
-    function activityCheck(){
+    function activityCheck() {
         try {
             $key = LogDAL::getConfig('act');
             return ['success' => true, 'data' => $key];
@@ -83,9 +107,10 @@ class main {
             return ['success' => false, 'data' => $ex];
         }
     }
+
     function activityStart() {
         try {
-            LogDAL::saveConfig('on','act');
+            LogDAL::saveConfig('on', 'act');
             $key = LogDAL::getConfig('act');
             return ['success' => true, 'data' => $key];
         } catch (Exception $ex) {
@@ -95,7 +120,7 @@ class main {
 
     function activityStop() {
         try {
-            LogDAL::saveConfig('off','act');
+            LogDAL::saveConfig('off', 'act');
             $key = LogDAL::getConfig('act');
             return ['success' => true, 'data' => $key];
         } catch (Exception $ex) {
