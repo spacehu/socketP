@@ -34,6 +34,30 @@ class main {
                         exit(json_encode($res['data']));
                     }
                     break;
+                case 'activityCheck':
+                    $res = $this->activityCheck();
+                    if ($res['success']) {
+                        exit(json_encode($res['data']));
+                    } else {
+                        exit(json_encode($res['data']));
+                    }
+                    break;
+                case 'activityStart':
+                    $res = $this->activityStart();
+                    if ($res['success']) {
+                        exit(json_encode($res['data']));
+                    } else {
+                        exit(json_encode($res['data']));
+                    }
+                    break;
+                case 'activityStop':
+                    $res = $this->activityStop();
+                    if ($res['success']) {
+                        exit(json_encode($res['data']));
+                    } else {
+                        exit(json_encode($res['data']));
+                    }
+                    break;
                 default:
                     break;
             }
@@ -44,7 +68,7 @@ class main {
     function socketStart() {
         //start socket
         try {
-            $_key = rand(0, 9999999);
+            //$_key = rand(0, 9999999);
             $command = "php socket.php &";
 //            LogDAL::saveLog('debug', 'info', '[' . $_key . ']command : ' . json_encode($command));
 
@@ -70,6 +94,35 @@ class main {
             LogDAL::saveLog('debug', 'info', 'exec : ' . json_encode($str));
             $process = exec($str);
             return ['success' => true, 'data' => $process];
+        } catch (Exception $ex) {
+            return ['success' => false, 'data' => $ex];
+        }
+    }
+
+    function activityCheck() {
+        try {
+            $key = LogDAL::getConfig('act');
+            return ['success' => true, 'data' => $key];
+        } catch (Exception $ex) {
+            return ['success' => false, 'data' => $ex];
+        }
+    }
+
+    function activityStart() {
+        try {
+            LogDAL::saveConfig('on', 'act');
+            $key = LogDAL::getConfig('act');
+            return ['success' => true, 'data' => $key];
+        } catch (Exception $ex) {
+            return ['success' => false, 'data' => $ex];
+        }
+    }
+
+    function activityStop() {
+        try {
+            LogDAL::saveConfig('off', 'act');
+            $key = LogDAL::getConfig('act');
+            return ['success' => true, 'data' => $key];
         } catch (Exception $ex) {
             return ['success' => false, 'data' => $ex];
         }

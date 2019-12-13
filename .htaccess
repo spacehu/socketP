@@ -1,0 +1,8 @@
+<FilesMatch "\.(bak|inc|lib|sh|tpl|lbi|dwt|xxx)$">
+    order deny,allow
+    deny from all
+</FilesMatch>
+
+RewriteEngine On
+
+RewriteRule ^(.*)\.htm$                                            index.php?a=default&m=$1
