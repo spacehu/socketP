@@ -33,7 +33,7 @@ class WS {
             $this->master = socket_create(AF_INET, SOCK_STREAM, SOL_TCP) or die("socket_create() failed");
             socket_set_option($this->master, SOL_SOCKET, SO_REUSEADDR, 1) or die("socket_option() failed");
             socket_bind($this->master, $address, $port) or die("socket_bind() failed");
-            socket_listen($this->master, 20) or die("socket_listen() failed");
+            socket_listen($this->master, 600) or die("socket_listen() failed");
 
             /**
              * 输入到套接字的集合中
@@ -71,7 +71,21 @@ class WS {
                         if ($bytes == 0) {
                             $this->disConnect($socket);
                         } else {
-                            if (empty($this->handshake[$skey]) || !$this->handshake[$skey]) {
+                            $bs=json_decode($buffer);
+                            if(!empty($bs->tag)&&$bs->tag=='client'){
+                                $this->say($buffer);
+                                foreach ($this->sockets as $k => $v) {
+                                    if ($v !== $this->master) {
+                                        if($v==$socket){
+                                            $this->send_client($v,$bs->obj->value);
+                                        }else{
+                                            $this->send($v, $bs->obj->value);
+                                            //die;
+                                        }
+                                    }
+                                }
+                                $this->disConnect($socket);
+                            }else if (empty($this->handshake[$skey]) || !$this->handshake[$skey]) {
                                 $this->doHandShake($socket, $buffer);
                             } else {
                                 $buffer = $this->decode($buffer);
@@ -84,6 +98,7 @@ class WS {
                                 foreach ($this->sockets as $k => $v) {
                                     if ($v !== $this->master) {
                                         $this->send($v, $buffer);
+                                        //die;
                                     }
                                 }
                             }
@@ -100,6 +115,14 @@ class WS {
 
     function send($client, $msg) {
         $msg = $this->frame($msg);
+        try {
+            socket_write($client, $msg, strlen($msg));
+        } catch (Exception $e) {
+            throw $e->getMessage();
+        }
+    }
+    
+    function send_client($client, $msg) {
         try {
             socket_write($client, $msg, strlen($msg));
         } catch (Exception $e) {
