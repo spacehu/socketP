@@ -81,7 +81,6 @@ class WS {
                                             $this->send_client($v,$bs->obj->value);
                                         }else{
                                             $this->send($v, $bs->obj->value);
-                                            //die;
                                         }
                                     }
                                 }
@@ -89,7 +88,9 @@ class WS {
                             }else if (empty($this->handshake[$skey]) || !$this->handshake[$skey]) {
                                 $this->doHandShake($socket, $buffer);
                             } else {
+                                $this->say($buffer);
                                 $buffer = $this->decode($buffer);
+                                $this->say($buffer);
                                 if($buffer=="space_close"){
                                     //$this->say("close from space");
                                     $this->log("close from space");
