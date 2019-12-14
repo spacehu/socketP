@@ -77,6 +77,7 @@ class WS {
                                 foreach ($this->sockets as $k => $v) {
                                     if ($v !== $this->master) {
                                         if($v==$socket){
+                                            $this->log($bs->obj->value);
                                             $this->send_client($v,$bs->obj->value);
                                         }else{
                                             $this->send($v, $bs->obj->value);
