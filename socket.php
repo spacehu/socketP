@@ -96,6 +96,7 @@ class WS {
                                     $this->log("close from space");
                                     $this->disConnect($socket);
                                 }
+                                $this->say("time : " . date('Y-m-d H:i:s'));
                                 $this->say($socket . " : " . $buffer); //打印链接树
                                 foreach ($this->sockets as $k => $v) {
                                     if ($v !== $this->master) {
